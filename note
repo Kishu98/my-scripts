@@ -11,9 +11,10 @@ while getopts ":parm" opt; do
 done
 
 if [[ -z "$1" ]]; then
-  category=$(find ~/notes/ -maxdepth 1 -mindepth 1 -type d \
+  category=$(find ~/notes/ -maxdepth 1 -mindepth 1 -type d ! -path '*/.*' \
   | sed "s|"$HOME"/notes/||" \
-  | fzf --reverse --no-sort)
+  | sort \
+  | fzf --reverse)
 fi
 
 if [[ -z "$category" ]]; then
@@ -22,6 +23,7 @@ fi
 
 note=$(find ~/notes/$(basename "$category") -maxdepth 1 -mindepth 1 -type d \
   | sed "s|"$HOME"/notes/"$category"/||" \
+  | sort \
   | fzf --print-query --reverse \
   | tail -n1)
 
@@ -39,7 +41,7 @@ if [[ ! -d "$notedir" ]]; then
   mkdir "$notedir"
 fi
 
-cd "$notedir" && nvim 
+cd "$notedir" && nvim .
 
 # session_name="notes"
 # window_name=$(echo "$note" | tr " " "_")

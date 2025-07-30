@@ -1,7 +1,13 @@
 #! /bin/bash
 
-if [[ ! -z $TMUX ]]; then
-  tmux display-popup -E -w 90% -h 90% -T "Notes" "note"
+if [[ $# -gt 0 ]]; then
+  cmd="note "$1""
 else
-  note
+  cmd="note"
+fi
+
+if [[ ! -z $TMUX ]]; then
+  tmux display-popup -E -w 90% -h 90% -T "Notes" "$cmd"
+else
+  ""$cmd""
 fi
