@@ -1,0 +1,62 @@
+#! /bin/bash
+
+while getopts ":parm" opt; do
+  case "$opt" in
+    p) category="01_Projects";;
+    a) category="02_Areas";;
+    r) category="03_Resources";;
+    m) echo "Work in Progress"; exit 0;;
+    *) echo "Idiot!"; exit 0;;
+  esac
+done
+
+if [[ -z "$1" ]]; then
+  category=$(find ~/notes/ -maxdepth 1 -mindepth 1 -type d \
+  | sed "s|"$HOME"/notes/||" \
+  | fzf --reverse --no-sort)
+fi
+
+if [[ -z "$category" ]]; then
+  exit 0
+fi
+
+note=$(find ~/notes/$(basename "$category") -maxdepth 1 -mindepth 1 -type d \
+  | sed "s|"$HOME"/notes/"$category"/||" \
+  | fzf --print-query --reverse \
+  | tail -n1)
+
+if [[ -z "$note" ]]; then
+  exit 0
+fi
+
+notedir="$HOME/notes/$category/$note"
+
+if [[ ! -d "$notedir" ]]; then
+  read -rp "Note "$note" does not exist. Create it? [y/N] " userinput
+  if [[ ! "$userinput" =~ ^[yY]$ ]]; then
+    exit 0
+  fi
+  mkdir "$notedir"
+fi
+
+cd "$notedir" && nvim 
+
+# session_name="notes"
+# window_name=$(echo "$note" | tr " " "_")
+#
+# if ! tmux has-session -t "$session_name" 2>/dev/null; then
+#   tmux new-session -ds "$session_name" -n "$window_name" -c "$notedir" "nvim"
+# fi
+#
+# if ! tmux has-session -t "$session_name:$window_name" 2>/dev/null; then
+#     tmux new-window -t "$session_name" -n "$window_name" -c "$notedir" "nvim"
+# fi
+#
+# tmux select-window -t "$session_name:$window_name"
+#
+# if [[ ! -z "$TMUX" ]]; then
+#   tmux switch-client -t "$session_name"
+# else
+#   tmux attach-session -t "$session_name"
+# fi
+
