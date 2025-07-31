@@ -2,12 +2,12 @@
 
 selected=$(find ~/.config -mindepth 1 -maxdepth 1 -type d |fzf --reverse)
 
-if [[ -z "$selected" ]]; then
+if [[ -z $selected ]]; then
   exit 0
 fi
 
 session_name="configs"
-window_name=$(basename "$selected" | tr " " "_")
+window_name=$(basename $selected | tr " " "_")
 
 selectfile=$(find $selected -mindepth 1 -maxdepth 1 | fzf --reverse)
 
@@ -15,19 +15,25 @@ if [[ -z $selectfile ]]; then
   exit 0
 fi
 
-if ! tmux has-session -t "$session_name" 2>/dev/null; then
-  tmux new-session -ds "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
-fi
-
-if ! tmux has-session -t "$session_name:$window_name" 2>/dev/null; then
-    tmux new-window -t "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
-fi
-
-tmux select-window -t "$session_name:$window_name"
-
-if [[ ! -z "$TMUX" ]]; then
-  tmux switch-client -t "$session_name"
+if [[ -z $TMUX ]]; then
+  nvim $selectfile
 else
-  tmux attach-session -t "$session_name"
+  tmux neww -n $window_name nvim $selectfile
 fi
+
+# if ! tmux has-session -t "$session_name" 2>/dev/null; then
+#   tmux new-session -ds "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
+# fi
+#
+# if ! tmux has-session -t "$session_name:$window_name" 2>/dev/null; then
+#     tmux new-window -t "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
+# fi
+#
+# tmux select-window -t "$session_name:$window_name"
+#
+# if [[ ! -z "$TMUX" ]]; then
+#   tmux switch-client -t "$session_name"
+# else
+#   tmux attach-session -t "$session_name"
+# fi
 

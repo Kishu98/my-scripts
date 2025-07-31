@@ -8,4 +8,8 @@ if [[ ! -f "$todo_file" ]]; then
   touch $todo_file
 fi
 
-nvim $todo_file
+if [[ -z $TMUX ]]; then
+  nvim $todo_file
+else
+  tmux neww -n "todo" nvim $todo_file
+fi

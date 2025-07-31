@@ -71,6 +71,12 @@ if [[ ! -f "$selected_note_dir" ]]; then
   touch "$selected_note_dir"
 fi
 
-# open note
-cd "$notedir" && nvim "$selected_note_dir"
+# # open note
+# cd "$notedir" && nvim "$selected_note_dir"
+
+if [[ -z $TMUX ]]; then
+  cd ~/notes && nvim "$selected_note_dir"
+else
+  tmux neww -n "$selected_note" -c ~/notes "nvim "$selected_note_dir""
+fi
 

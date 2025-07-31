@@ -4,8 +4,12 @@ daily_note="$(date +%d-%b-%Y).md"
 
 cd ~/notes/03_Resources/Daily-notes/
 
-if [[ ! -f "$daily_note" ]]; then
+if [[ ! -f $daily_note ]]; then
   touch $daily_note
 fi
 
-nvim $daily_note
+if [[ -z $TMUX ]]; then
+  nvim $daily_note
+else
+  tmux neww -n "daily_note" nvim $daily_note
+fi
