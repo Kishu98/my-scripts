@@ -11,6 +11,10 @@ window_name=$(basename "$selected" | tr " " "_")
 
 selectfile=$(find $selected -mindepth 1 -maxdepth 1 | fzf --reverse)
 
+if [[ -z $selectfile ]]; then
+  exit 0
+fi
+
 if ! tmux has-session -t "$session_name" 2>/dev/null; then
   tmux new-session -ds "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
 fi

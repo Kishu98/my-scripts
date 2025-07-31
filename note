@@ -1,5 +1,6 @@
 #! /bin/bash
 
+# Getting the correct options if any
 while getopts ":parm" opt; do
   case "$opt" in
     p) category="01_Projects";;
@@ -10,29 +11,34 @@ while getopts ":parm" opt; do
   esac
 done
 
+# If no options use the below function to search for the correct directory
 if [[ -z "$1" ]]; then
   category=$(find ~/notes/ -maxdepth 1 -mindepth 1 -type d ! -path '*/.*' \
   | sed "s|"$HOME"/notes/||" \
   | sort \
-  | fzf --reverse)
+  | fzf --reverse --preview 'ls ~/notes/{}')
 fi
 
+# If no category selected, just quit
 if [[ -z "$category" ]]; then
   exit 0
 fi
 
+# If the correct directory was selected or passed then search for the correct note topic directory
 note=$(find ~/notes/$(basename "$category") -maxdepth 1 -mindepth 1 -type d \
   | sed "s|"$HOME"/notes/"$category"/||" \
   | sort \
-  | fzf --print-query --reverse \
+  | fzf --print-query --reverse --preview "ls ~/notes/"$category"/{}" \
   | tail -n1)
 
+# If no note topic directory selected, just quit
 if [[ -z "$note" ]]; then
   exit 0
 fi
 
 notedir="$HOME/notes/$category/$note"
 
+# If no note directory exist, ask user if it has to be created
 if [[ ! -d "$notedir" ]]; then
   read -rp "Note "$note" does not exist. Create it? [y/N] " userinput
   if [[ ! "$userinput" =~ ^[yY]$ ]]; then
@@ -41,24 +47,30 @@ if [[ ! -d "$notedir" ]]; then
   mkdir "$notedir"
 fi
 
-cd "$notedir" && nvim .
+# If note directory selected, search and select the note file to edit
+selected_note=$(find "$notedir" -maxdepth 1 -mindepth 1 \
+  | sed "s|"$notedir"/||" \
+  | sort \
+  | fzf --print-query --reverse --preview "cat "$notedir"/{}" \
+  | tail -n1)
 
-# session_name="notes"
-# window_name=$(echo "$note" | tr " " "_")
-#
-# if ! tmux has-session -t "$session_name" 2>/dev/null; then
-#   tmux new-session -ds "$session_name" -n "$window_name" -c "$notedir" "nvim"
-# fi
-#
-# if ! tmux has-session -t "$session_name:$window_name" 2>/dev/null; then
-#     tmux new-window -t "$session_name" -n "$window_name" -c "$notedir" "nvim"
-# fi
-#
-# tmux select-window -t "$session_name:$window_name"
-#
-# if [[ ! -z "$TMUX" ]]; then
-#   tmux switch-client -t "$session_name"
-# else
-#   tmux attach-session -t "$session_name"
-# fi
+# If no note file selected, just quit
+if [[ -z "$selected_note" ]]; then
+  exit 0
+fi
+
+selected_note_dir="$notedir/$selected_note"
+
+# If note file does not exists. Ask user to create it
+if [[ ! -f "$selected_note_dir" ]]; then
+  read -rp "Note "$selected_note_dir" does not exist. Create it? [y/N] " userinput
+  if [[ ! "$userinput" =~ ^[yY]$ ]]; then
+    exit 0
+  fi
+  selected_note_dir=""$selected_note_dir".md"
+  touch "$selected_note_dir"
+fi
+
+# open note
+cd "$notedir" && nvim "$selected_note_dir"
 

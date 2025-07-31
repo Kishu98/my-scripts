@@ -1,0 +1,8 @@
+#! /bin/bash
+
+
+if [[ -z $TMUX ]]; then
+  daily_note 
+else
+  tmux display-popup -E -w 90% -h 90% -T "Daily Note" "daily_note"
+fi

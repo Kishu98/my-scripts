@@ -1,0 +1,7 @@
+#! /bin/bash
+
+if [[ -z "$TMUX" ]]; then
+  todo
+else
+  tmux display-popup -E -w 50% -h 60% -T "Daily Note" "todo"
+fi

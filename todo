@@ -1,0 +1,11 @@
+#! /bin/bash
+
+cd ~/notes/02_Areas/TODO/
+
+todo_file="TODO.md"
+
+if [[ ! -f "$todo_file" ]]; then
+  touch $todo_file
+fi
+
+nvim $todo_file

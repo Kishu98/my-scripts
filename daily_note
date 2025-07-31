@@ -1,0 +1,11 @@
+#! /bin/bash
+
+daily_note="$(date +%d-%b-%Y).md"
+
+cd ~/notes/03_Resources/Daily-notes/
+
+if [[ ! -f "$daily_note" ]]; then
+  touch $daily_note
+fi
+
+nvim $daily_note
