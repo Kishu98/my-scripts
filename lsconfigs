@@ -1,19 +1,24 @@
 #!/bin/bash
 
-selected=$(find ~/.config -mindepth 1 -maxdepth 1 -type d |fzf --reverse)
+selected=$(find ~/.config -mindepth 1 -maxdepth 1 -type d \
+  | sed "s|$HOME/.config/||" \
+  |fzf --reverse --preview 'ls ~/.config/{}')
 
 if [[ -z $selected ]]; then
   exit 0
 fi
 
-session_name="configs"
 window_name=$(basename $selected | tr " " "_")
 
-selectfile=$(find $selected -mindepth 1 -maxdepth 1 | fzf --reverse)
+selectfile=$(find ~/.config/$selected -mindepth 1 -maxdepth 1 \
+  | sed "s|$HOME/.config/$selected/||" \
+  | fzf --reverse --preview "cat ~/.config/"$selected"/{}")
 
 if [[ -z $selectfile ]]; then
   exit 0
 fi
+
+selectfile="$HOME/.config/$selected/$selectfile"
 
 if [[ -z $TMUX ]]; then
   nvim $selectfile

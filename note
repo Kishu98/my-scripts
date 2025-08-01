@@ -44,7 +44,15 @@ if [[ ! -d "$notedir" ]]; then
   if [[ ! "$userinput" =~ ^[yY]$ ]]; then
     exit 0
   fi
+  
   mkdir "$notedir"
+  cd "$notedir"
+  if [[ -z $TMUX ]]; then
+    nvim
+  else
+    tmux neww -n "$note" "nvim"
+  fi
+  exit 0
 fi
 
 # If note directory selected, search and select the note file to edit

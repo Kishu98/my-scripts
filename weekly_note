@@ -1,0 +1,42 @@
+#! /bin/bash
+
+date=$(date -d "$(date +%w) days ago" +%d-%b-%Y)
+weekly_note="$date.md"
+
+cd ~/notes/03_Resources/Weekly-notes
+
+if [[ ! -f $weekly_note ]]; then
+  touch $weekly_note
+  # template
+  cat << EOF > $weekly_note
+# Weekly Notes - $date
+
+## Sunday $(date -d "today" +%d-%b-%Y)
+
+
+## Monday $(date -d "monday" +%d-%b-%Y)
+
+
+## Tuesday $(date -d "tuesday" +%d-%b-%Y)
+
+
+## Wednesday $(date -d "wednesday" +%d-%b-%Y)
+
+
+## Thursday $(date -d "thursday" +%d-%b-%Y)
+
+
+## Friday $(date -d "friday" +%d-%b-%Y)
+
+
+## Saturday $(date -d "saturday" +%d-%b-%Y)
+
+
+EOF
+fi
+
+if [[ -z $TMUX ]]; then
+  nvim $weekly_note
+else
+  tmux neww -n "weekly_note" nvim $weekly_note
+fi
