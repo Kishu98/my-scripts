@@ -11,5 +11,5 @@ fi
 if [[ -z $TMUX ]]; then
   nvim $todo_file
 else
-  tmux neww -n "todo" nvim $todo_file
+  tmux split-window -h -l 30% nvim $todo_file
 fi
