@@ -20,6 +20,8 @@ fi
 
 selectfile="$HOME/.config/$selected/$selectfile"
 
+cd "$HOME/.config/$selected"
+
 if [[ -z $TMUX ]]; then
   nvim $selectfile
 else

@@ -1,0 +1,16 @@
+#! /bin/bash
+
+cd "$HOME/notes/03_Resources/Movies/"
+
+movie_file="movie_list.md"
+
+if [[ -f "$movie_file" ]]; then
+  touch "$movie_file"
+fi
+
+if [[ -z $TMUX ]]; then
+  nvim "$movie_file"
+  exit 0
+fi
+
+tmux split-window -h -l 30% nvim $movie_file
