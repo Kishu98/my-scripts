@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd ~/notes/Inbox
+cd ~/Notes/00_Inbox/
 
 filename=$(date -d "today" +%d-%b-%y_%H:%M).md
 

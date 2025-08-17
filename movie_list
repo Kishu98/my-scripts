@@ -1,8 +1,8 @@
 #! /bin/bash
 
-cd "$HOME/notes/03_Resources/Movies/"
+cd "$HOME/Notes/Movies/"
 
-movie_file="movie_list.md"
+movie_file="MovieList.md"
 
 if [[ -f "$movie_file" ]]; then
   touch "$movie_file"

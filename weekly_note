@@ -3,7 +3,7 @@
 date=$(date -d "$(date +%w) days ago" +%d-%b-%Y)
 weekly_note="$date.md"
 
-cd ~/notes/03_Resources/Weekly-notes
+cd ~/Notes/WeeklyNotes
 
 if [[ ! -f $weekly_note ]]; then
   touch $weekly_note
@@ -11,8 +11,9 @@ if [[ ! -f $weekly_note ]]; then
   cat << EOF > $weekly_note
 # Weekly Notes - $date
 
-## Sunday $(date -d "today" +%d-%b-%Y)
+## Sunday $(date -d "sunday" +%d-%b-%Y)
 
+- Review the notes and categorize them.
 
 ## Monday $(date -d "monday" +%d-%b-%Y)
 

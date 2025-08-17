@@ -1,6 +1,6 @@
 #!/bin/bash
 
-selected=$(find ~/.config -mindepth 1 -maxdepth 1 -type d \
+selected=$(find -L ~/.config -mindepth 1 -maxdepth 1 -type d \
   | sed "s|$HOME/.config/||" \
   |fzf --reverse --preview 'ls ~/.config/{}')
 
@@ -10,7 +10,7 @@ fi
 
 window_name=$(basename $selected | tr " " "_")
 
-selectfile=$(find ~/.config/$selected -mindepth 1 -maxdepth 1 \
+selectfile=$(find -L ~/.config/$selected -mindepth 1 -maxdepth 1 \
   | sed "s|$HOME/.config/$selected/||" \
   | fzf --reverse --preview "cat ~/.config/"$selected"/{}")
 
@@ -27,20 +27,3 @@ if [[ -z $TMUX ]]; then
 else
   tmux neww -n $window_name nvim $selectfile
 fi
-
-# if ! tmux has-session -t "$session_name" 2>/dev/null; then
-#   tmux new-session -ds "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
-# fi
-#
-# if ! tmux has-session -t "$session_name:$window_name" 2>/dev/null; then
-#     tmux new-window -t "$session_name" -n "$window_name" -c "$selected" "nvim $selectfile"
-# fi
-#
-# tmux select-window -t "$session_name:$window_name"
-#
-# if [[ ! -z "$TMUX" ]]; then
-#   tmux switch-client -t "$session_name"
-# else
-#   tmux attach-session -t "$session_name"
-# fi
-

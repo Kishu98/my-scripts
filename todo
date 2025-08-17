@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd ~/notes/
+cd ~/Notes/
 
 todo_file="TODO.md"
 

@@ -25,7 +25,7 @@ if [[ -z "$category" ]]; then
 fi
 
 # If the correct directory was selected or passed then search for the correct note topic directory
-note=$(find ~/notes/$(basename "$category") -maxdepth 1 -mindepth 1 -type d \
+note=$(find ~/notes/$(basename "$category") -maxdepth 1 -mindepth 1  \
   | sed "s|"$HOME"/notes/"$category"/||" \
   | sort \
   | fzf --print-query --reverse --preview "ls ~/notes/"$category"/{}" \

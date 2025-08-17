@@ -1,0 +1,17 @@
+#! /bin/bash
+
+project=$(find ~/Documents/Projects/ -mindepth 1 -maxdepth 1 -type d \
+  | sed "s|$HOME/Documents/Projects/||" \
+  | fzf) || exit 0
+
+project_dir="$HOME/Documents/Projects/$project"
+
+if ! tmux has-session -t "$project" 2>/dev/null; then
+  tmux new-session -ds "$project" -c "$project_dir"
+fi
+
+if [[ -z $TMUX ]]; then
+  tmux attach-session -t "$project"
+else
+  tmux switch-client -t "$project"
+fi

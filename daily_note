@@ -2,7 +2,7 @@
 
 daily_note="$(date +%d-%b-%Y).md"
 
-cd ~/notes/03_Resources/Daily-notes/
+cd ~/Notes/DailyNotes/
 
 if [[ ! -f $daily_note ]]; then
   touch $daily_note
