@@ -43,3 +43,10 @@ Here's a breakdown of what each script does:
 ### 📅 `weekly_note`
 - **Purpose**: Plan your week with a structured weekly note.
 - **How it works**: This script generates a new note for the current week, named after the date of the last Sunday. If the note doesn't exist, it's automatically populated with a template that includes sections for each day of the week, setting you up for a productive week ahead.
+
+---
+## 🛠️ Make It Your Own
+
+These scripts are tailored to my personal workflow, but they can be easily adapted to fit yours. Feel free to fork this repository, tweak the scripts, and make them your own. The goal is to build a toolset that makes your command-line life easier and more productive.
+
+Happy scripting!
