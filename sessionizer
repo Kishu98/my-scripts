@@ -3,7 +3,11 @@
 project=$(find ~/Documents/Projects/ -mindepth 1 -maxdepth 1 -type d \
   | sed "s|$HOME/Documents/Projects/||" \
   | fzf --print-query \
-  | tail -n1 ) 
+  | tail -n1 )
+
+if [[ -z $project ]]; then
+  exit 0
+fi
 
 project_dir="$HOME/Documents/Projects/$project"
 
