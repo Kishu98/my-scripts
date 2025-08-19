@@ -8,6 +8,10 @@ Welcome to my personal collection of scripts! 🚀 This repository contains a se
 
 Here's a breakdown of what each script does:
 
+### 📥 `aocinput`
+- **Purpose**: Fetches Advent of Code puzzle inputs.
+- **How it works**: This script automatically downloads the puzzle input for a specified day and year from the Advent of Code website. It requires a session cookie to be set up for authentication.
+
 ### 📝 `daily_note`
 - **Purpose**: Creates and opens a daily journal note.
 - **How it works**: It generates a Markdown file named with the current date (e.g., `17-Aug-2025.md`) in the `~/Notes/DailyNotes/` directory. If you're in a `tmux` session, it conveniently opens the note in a new window named `daily_note`.
