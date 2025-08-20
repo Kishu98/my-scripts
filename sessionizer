@@ -1,6 +1,6 @@
 #! /bin/bash
 
-location_dir=$(find ~/Documents/Projects  -maxdepth 1 -type d -name '.*' -prune -o -print\
+location_dir=$(find ~/Scripts ~/Documents/Projects  -maxdepth 1 \( -name '.*' -type d -prune \) -o -type d -print \
   | fzf  --with-nth=-1 --delimiter / --print-query \
   | tail -n1 )
 
