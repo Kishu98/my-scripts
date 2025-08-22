@@ -10,7 +10,7 @@ Here's a breakdown of what each script does:
 
 ### 📥 `aocinput`
 - **Purpose**: Fetches Advent of Code puzzle inputs.
-- **How it works**: This script automatically downloads the puzzle input for a specified day and year from the Advent of Code website. It requires a session cookie to be set up for authentication.
+- **How it works**: This script automatically downloads the puzzle input for a specified day and year from the Advent of Code website. It requires a session cookie to be set up for authentication. It also generates template files for Go (`main.go`, `part1.go`, and `part2.go`).
 
 ### 📝 `daily_note`
 - **Purpose**: Creates and opens a daily journal note.
@@ -30,7 +30,7 @@ Here's a breakdown of what each script does:
 
 ### 🗒️ `note`
 - **Purpose**: A comprehensive note management system.
-- **How it works**: This is a powerful script for navigating a structured note-taking system (Projects, Areas, Resources). It uses `fzf` to let you fuzzy-find and select note categories and specific notes, and even allows you to create new notes and topics on the fly.
+- **How it works**: This is a powerful script for navigating a structured note-taking system. It uses `fzf` to let you fuzzy-find and select note categories and specific notes, and even allows you to create new notes and topics on the fly.
 
 ### 📌 `pnote`
 - **Purpose**: Create and manage project-specific notes.
@@ -38,7 +38,7 @@ Here's a breakdown of what each script does:
 
 ### 🔄 `sessionizer`
 - **Purpose**: A `tmux` session manager for your projects.
-- **How it works**: It displays a list of your projects from `~/Documents/Projects/` using `fzf`. You can then select a project to instantly create, attach, or switch to its dedicated `tmux` session.
+- **How it works**: It displays a list of directories (e.g., `~/Documents/Projects/` and `~/Scripts`) using `fzf`. You can then select a project to instantly create, attach, or switch to its dedicated `tmux` session.
 
 ### ✅ `todo`
 - **Purpose**: Open your main TODO list.
