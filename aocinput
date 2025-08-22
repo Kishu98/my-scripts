@@ -32,6 +32,42 @@ curl -s -b "session=$session" "$url" -o "$output_file"
 
 if [ $? -eq 0 ]; then
   echo "Input saved to $output_file"
+  echo "Generating template"
 else
   echo "Failed to download input."
 fi
+
+touch main.go part1.go part2.go
+
+cat << EOF > main.go
+package main
+
+import "fmt"
+
+func main() {
+  filename := "TestInput.txt"
+  fmt.Printf("\nPart1\n%d\n", part1(filename))
+  fmt.Printf("\nPart2\n%d\n", part2(filename))
+}
+
+EOF
+
+cat << EOF > part1.go
+package main
+
+func part1(filename string) int {
+
+  return 0
+}
+
+EOF
+
+cat << EOF > part2.go
+package main
+
+func part2(filename string) int {
+
+  return 0
+}
+
+EOF
