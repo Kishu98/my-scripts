@@ -21,6 +21,7 @@ fi
 
 if ! tmux has-session -t "$location" 2>/dev/null; then
   tmux new-session -ds "$location" -c "$location_dir"
+  tmux send-keys -t "$location" "pnote && clear" C-m
 fi
 
 if [[ -z $TMUX ]]; then
