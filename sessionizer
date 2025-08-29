@@ -1,31 +1,42 @@
 #! /bin/bash
 
-location_dir=$(find ~/Scripts ~/Documents/Projects  -maxdepth 1 \( -name '.*' -type d -prune \) -o -type d -print \
-  | fzf  --with-nth=-1 --delimiter / --print-query \
-  | tail -n1 )
+selection=$(
+  (
+    find ~/Documents/Projects -mindepth 1 -maxdepth 1 \( -name '.*' -type d -prune \) -o -type d -print
+    echo ~/Notes 
+    echo ~/Scripts
+    tmux ls | cut -d: -f1
+  ) | awk -F/ '!seen[$(NF)]++' \
+    | sort -u \
+    | fzf --with-nth=-1 --delimiter / --print-query \
+    | tail -n1
+)
 
-if [[ -z $location_dir ]]; then
+
+if [[ -z $selection ]]; then
   exit 0
 fi
 
-location=$(basename "$location_dir")
+session_name=$(basename "$selection")
 
-if [[ ! -d "$location_dir" ]]; then
-  read -rp "Create new project? [y/N] " userinput
-  if [[ ! "$userinput" =~ ^[yY]$ ]]; then
-    exit 0
+if [[ ! -d "$selection" ]]; then
+  if ! tmux has-session -t "$session_name" 2>/dev/null; then
+    read -rp "Create new project? [y/N] " userinput
+    if [[ ! "$userinput" =~ ^[yY]$ ]]; then
+      exit 0
+    fi
+    selection="$HOME/Documents/Projects/$session_name"
+    mkdir "$selection"
   fi
-  location_dir="$HOME/Documents/Projects/$location"
-  mkdir "$location_dir"
 fi
 
-if ! tmux has-session -t "$location" 2>/dev/null; then
-  tmux new-session -ds "$location" -c "$location_dir"
-  tmux send-keys -t "$location" "pnote && clear" C-m
+if ! tmux has-session -t "$session_name" 2>/dev/null; then
+  tmux new-session -ds "$session_name" -c "$selection"
+  # tmux send-keys -t "$location" "pnote && clear" C-m
 fi
 
 if [[ -z $TMUX ]]; then
-  tmux attach-session -t "$location"
+  tmux attach-session -t "$session_name"
 else
-  tmux switch-client -t "$location"
+  tmux switch-client -t "$session_name"
 fi
