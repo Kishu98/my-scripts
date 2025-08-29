@@ -38,7 +38,7 @@ Here's a breakdown of what each script does:
 
 ### 🔄 `sessionizer`
 - **Purpose**: A `tmux` session manager for your projects.
-- **How it works**: It displays a list of directories (e.g., `~/Documents/Projects/` and `~/Scripts`) using `fzf`. You can then select a project to instantly create, attach, or switch to its dedicated `tmux` session.
+- **How it works**: It displays a list of directories (from `~/Documents/Projects/`, `~/Scripts`, and `~/Notes`) and existing `tmux` sessions using `fzf`. You can select a project to create, attach, or switch to its dedicated `tmux` session. If the selected project directory doesn't exist, it will prompt you to create it.
 
 ### ✅ `todo`
 - **Purpose**: Open your main TODO list.
